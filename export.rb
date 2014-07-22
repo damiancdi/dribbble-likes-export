@@ -30,16 +30,7 @@ class DribbbleLikesExport
 
   end
 
-  def get_liked_count
-
-    response        = HTTParty.get(@url + "&per_page=1&page=0")
-    parsed_response = JSON.parse(response.body)
-
-    return parsed_response['total']
-
-  end
-
-  def get_photos(limit = 0, offset = 0)
+  def get_shots(limit = 0, offset = 0)
 
     response        = HTTParty.get(@url + "?per_page=#{limit}&page=#{offset}")
     parsed_response = JSON.parse(response.body)
@@ -76,9 +67,6 @@ class DribbbleLikesExport
 
   def download
 
-    # uncomment next line to download all your liked images
-    # download_num = get_liked_count
-
     parsed = 0
 
     rest = @download_num % @limit
@@ -104,7 +92,7 @@ class DribbbleLikesExport
         @limit = @download_num - parsed
       end
 
-      result = get_photos(@limit, offset)
+      result = get_shots(@limit, offset)
       parsed += @limit
       break if !result
 
